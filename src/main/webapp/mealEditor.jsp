@@ -5,37 +5,51 @@
 <html>
 <head>
 	<title>Edit</title>
-	<style>
-		div.container {
-			width: 500px;
-			clear: both;
-		}
-
-		div.container input.data {
-			float: right;
-			clear: both;
-		}
-
-		div.container input.button {
-			width: 48%;
-			clear: both;
-		}
-	</style>
 </head>
 <body>
 <jsp:useBean id="meal" scope="request" type="ru.javawebinar.topjava.model.Meal"/>
 <jsp:useBean id="formatter" scope="request" type="java.time.format.DateTimeFormatter"/>
 
-<div class="container">
-	<form method="POST" action="${pageContext.request.contextPath}/meals" name="frmAddUser">
-		<input type="hidden" name="id" value="${meal.id}">
-		Date : <label><input class="data" type="datetime-local" name="dateTime"
-							 value="${meal.dateTime.format(formatter)}"></label><br/>
-		Description : <label><input class="data" type="text" name="description" value="${meal.description}"></label><br/>
-		Calories : <label><input class="data" type="number" name="calories" value="${meal.calories}"></label><br/>
-		<input class="button" type="submit" value="Submit">
-		<input class="button" type="button" value="Cancel" onclick="window.location='${pageContext.request.contextPath}/meals';"/>
-	</form>
-</div>
+<form method="POST" action="meals" name="frmAddUser">
+	<table>
+		<tr>
+			<td></td>
+			<td>
+				<input type="hidden" name="id" value="${meal.id}">
+			</td>
+		</tr>
+		<tr>
+			<td>
+				Date :
+			</td>
+			<td>
+				<input class="data" name="dateTime" type="datetime-local" value="${meal.dateTime.format(formatter)}">
+			</td>
+		</tr>
+		<tr>
+			<td>
+				Description :
+			</td>
+			<td>
+				<input class="data" name="description" type="text" value="${meal.description}">
+			</td>
+		</tr>
+		<tr>
+			<td>
+				Calories :
+			</td>
+			<td>
+				<input class="data" name="calories" type="number" value="${meal.calories}">
+			</td>
+		</tr>
+		<tr>
+			<td></td>
+			<td>
+				<input class="button" type="submit" value="Submit">
+				<input class="button" type="button" value="Cancel" onclick="window.location='meals';"/>
+			</td>
+		</tr>
+	</table>
+</form>
 </body>
 </html>

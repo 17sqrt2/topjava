@@ -1,7 +1,7 @@
 package ru.javawebinar.topjava.web;
 
 import org.slf4j.Logger;
-import ru.javawebinar.topjava.dao.MealDao;
+import ru.javawebinar.topjava.dao.MealMockDao;
 import ru.javawebinar.topjava.dao.MealDaoImpl;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.util.MealsUtil;
@@ -18,19 +18,21 @@ import static org.slf4j.LoggerFactory.getLogger;
 
 public class MealServlet extends HttpServlet {
 	private static final Logger log = getLogger(MealServlet.class);
-	private final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
+	private final DateTimeFormatter FORMATTER_USER = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
+	private final DateTimeFormatter FORMATTER_DATA = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
 	private static String INSERT_OR_EDIT = "/mealEditor.jsp";
 	private static String LIST_MEAL = "/meals.jsp";
-	private int caloriesPerDay = MealsUtil.getCaloriesLimit();
-	private MealDao mealDao;
+	private MealMockDao mealDao;
 
 	public MealServlet() {
 		super();
+		log.debug(getClass().getSimpleName() + " created");
 		mealDao = new MealDaoImpl();
 	}
 
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		log.debug("now in " + new Object(){}.getClass().getEnclosingMethod().getName());
 		request.setCharacterEncoding("UTF-8");
 
 		String forward;
@@ -38,29 +40,39 @@ public class MealServlet extends HttpServlet {
 		if (action == null || action.isEmpty())
 			action = "listMeal";
 		Meal meal = new Meal();
+		int mealId;
 
-		if (action.equalsIgnoreCase("delete")) {
-			int mealId = Integer.parseInt(request.getParameter("mealId"));
-			mealDao.delete(mealId);
-			forward = LIST_MEAL;
-		} else if (action.equalsIgnoreCase("edit")) {
-			forward = INSERT_OR_EDIT;
-			int mealId = Integer.parseInt(request.getParameter("mealId"));
-			meal = mealDao.getOneById(mealId);
-		} else if (action.equalsIgnoreCase("listMeal")) {
-			forward = LIST_MEAL;
-		} else {
-			forward = INSERT_OR_EDIT;
+		switch (action.toLowerCase()) {
+			case "delete" :
+				mealId = Integer.parseInt(request.getParameter("mealId"));
+				mealDao.delete(mealId);
+				response.sendRedirect("meals");
+				return;
+			case "edit" :
+				forward = INSERT_OR_EDIT;
+				mealId = Integer.parseInt(request.getParameter("mealId"));
+				meal = mealDao.get(mealId);
+				request.setAttribute("meal", meal);
+				request.setAttribute("formatter", FORMATTER_DATA);
+				break;
+			case "listmeal" :
+				forward = LIST_MEAL;
+				request.setAttribute("meals", MealsUtil.getAllWithExcess(mealDao.getAll(), MealsUtil.getCaloriesLimit()));
+				request.setAttribute("formatter", FORMATTER_USER);
+				break;
+			default :
+				forward = INSERT_OR_EDIT;
+				request.setAttribute("meal", meal);
+				request.setAttribute("formatter", FORMATTER_DATA);
+				break;
 		}
 
-		request.setAttribute("meal", meal);
-		request.setAttribute("meals", MealsUtil.getAllWithExcess(mealDao.getAll(), caloriesPerDay));
-		request.setAttribute("formatter", FORMATTER);
 		request.getRequestDispatcher(forward).forward(request, response);
 	}
 
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		log.debug("now in " + new Object(){}.getClass().getEnclosingMethod().getName());
 		request.setCharacterEncoding("UTF-8");
 
 		String idStr = request.getParameter("id");
@@ -68,20 +80,18 @@ public class MealServlet extends HttpServlet {
 		String description = request.getParameter("description");
 		int calories = Integer.parseInt(request.getParameter("calories"));
 		int id = 0;
-		Meal meal;
+		Meal meal = new Meal(id, LocalDateTime.parse(dateTimeStr, FORMATTER_DATA), description, calories);
 
 		if (idStr == null || idStr.isEmpty() || idStr.equalsIgnoreCase("0")) {
-			meal = new Meal(id, LocalDateTime.parse(dateTimeStr, FORMATTER), description, calories);
-			mealDao.add(meal);
+			meal = mealDao.add(meal);
 		} else {
 			id = Integer.parseInt(idStr);
-			meal = new Meal(id, LocalDateTime.parse(dateTimeStr, FORMATTER), description, calories);
+			meal.setId(id);
 			mealDao.update(id, meal);
 		}
 
-		request.setAttribute("meal", meal);
-		request.setAttribute("meals", MealsUtil.getAllWithExcess(mealDao.getAll(), caloriesPerDay));
-		request.setAttribute("formatter", FORMATTER);
+		request.setAttribute("meals", MealsUtil.getAllWithExcess(mealDao.getAll(), MealsUtil.getCaloriesLimit()));
+		request.setAttribute("formatter", FORMATTER_USER);
 		request.getRequestDispatcher(LIST_MEAL).forward(request, response);
 	}
 }

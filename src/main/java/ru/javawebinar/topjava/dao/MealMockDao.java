@@ -4,8 +4,8 @@ import ru.javawebinar.topjava.model.Meal;
 
 import java.util.List;
 
-public interface MealDao {
-	void add(Meal meal);
+public interface MealMockDao {
+	Meal add(Meal meal);
 
 	void update(int id, Meal meal);
 
@@ -13,5 +13,5 @@ public interface MealDao {
 
 	List<Meal> getAll();
 
-	Meal getOneById(int id);
+	Meal get(int id);
 }
