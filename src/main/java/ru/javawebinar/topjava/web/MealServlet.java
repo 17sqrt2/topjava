@@ -1,8 +1,8 @@
 package ru.javawebinar.topjava.web;
 
 import org.slf4j.Logger;
-import ru.javawebinar.topjava.dao.MealMockDao;
-import ru.javawebinar.topjava.dao.MealDaoImpl;
+import ru.javawebinar.topjava.dao.MealDao;
+import ru.javawebinar.topjava.dao.MealDaoMockImpl;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.util.MealsUtil;
 
@@ -22,12 +22,12 @@ public class MealServlet extends HttpServlet {
 	private final DateTimeFormatter FORMATTER_DATA = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
 	private static String INSERT_OR_EDIT = "/mealEditor.jsp";
 	private static String LIST_MEAL = "/meals.jsp";
-	private MealMockDao mealDao;
+	private MealDao mealDao;
 
 	public MealServlet() {
 		super();
 		log.debug(getClass().getSimpleName() + " created");
-		mealDao = new MealDaoImpl();
+		mealDao = new MealDaoMockImpl();
 	}
 
 	@Override
@@ -49,21 +49,17 @@ public class MealServlet extends HttpServlet {
 				response.sendRedirect("meals");
 				return;
 			case "edit" :
-				forward = INSERT_OR_EDIT;
 				mealId = Integer.parseInt(request.getParameter("mealId"));
 				meal = mealDao.get(mealId);
+			case "insert" :
+				forward = INSERT_OR_EDIT;
 				request.setAttribute("meal", meal);
 				request.setAttribute("formatter", FORMATTER_DATA);
 				break;
-			case "listmeal" :
+			default :
 				forward = LIST_MEAL;
 				request.setAttribute("meals", MealsUtil.getAllWithExcess(mealDao.getAll(), MealsUtil.getCaloriesLimit()));
 				request.setAttribute("formatter", FORMATTER_USER);
-				break;
-			default :
-				forward = INSERT_OR_EDIT;
-				request.setAttribute("meal", meal);
-				request.setAttribute("formatter", FORMATTER_DATA);
 				break;
 		}
 
@@ -83,7 +79,7 @@ public class MealServlet extends HttpServlet {
 		Meal meal = new Meal(id, LocalDateTime.parse(dateTimeStr, FORMATTER_DATA), description, calories);
 
 		if (idStr == null || idStr.isEmpty() || idStr.equalsIgnoreCase("0")) {
-			meal = mealDao.add(meal);
+			mealDao.add(meal);
 		} else {
 			id = Integer.parseInt(idStr);
 			meal.setId(id);
