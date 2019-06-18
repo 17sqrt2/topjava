@@ -7,7 +7,6 @@ import org.springframework.util.CollectionUtils;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.repository.MealRepository;
 import ru.javawebinar.topjava.util.DateTimeUtil;
-import ru.javawebinar.topjava.util.MealsUtil;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -32,9 +31,13 @@ public class InMemoryMealRepositoryImpl implements MealRepository {
     private AtomicInteger counter = new AtomicInteger(0);
 
     {
-        MealsUtil.MEALS.forEach(meal -> save(meal, USER_ID));
-
-        save(new Meal(LocalDateTime.of(2019, Month.JUNE, 1, 10, 0, 0), "New Admin Meal 1", 123), ADMIN_ID);
+		save(new Meal(LocalDateTime.of(2015, Month.MAY, 30, 10, 0), "User breakfast", 500), USER_ID);
+		save(new Meal(LocalDateTime.of(2015, Month.MAY, 30, 13, 0), "User lunch", 1000), USER_ID);
+		save(new Meal(LocalDateTime.of(2015, Month.MAY, 30, 20, 0), "User dinner", 500), USER_ID);
+		save(new Meal(LocalDateTime.of(2015, Month.MAY, 31, 10, 0), "User breakfast", 1000), USER_ID);
+		save(new Meal(LocalDateTime.of(2015, Month.MAY, 31, 13, 0), "User lunch", 500), USER_ID);
+		save(new Meal(LocalDateTime.of(2015, Month.MAY, 31, 20, 0), "User dinner", 510), USER_ID);
+		save(new Meal(LocalDateTime.of(2019, Month.JUNE, 1, 10, 0, 0), "New Admin Meal 1", 123), ADMIN_ID);
         save(new Meal(LocalDateTime.of(2019, Month.JUNE, 10, 10, 0, 0), "New Admin Meal 2", 1321), ADMIN_ID);
         save(new Meal(LocalDateTime.of(2019, Month.JUNE, 10, 14, 0, 0), "New User Meal 1", 1777), USER_ID);
     }
@@ -70,12 +73,6 @@ public class InMemoryMealRepositoryImpl implements MealRepository {
     public List<Meal> getAll(int userId) {
         log.info("get all meals, user {} ", userId);
         return getFiltered(userId, meal -> true);
-    }
-
-    @Override
-    public List<Meal> getFiltered(LocalDateTime start, LocalDateTime end, int userId) {
-        log.info("get filtered meals, period ({} .. {}), user {}", start, end, userId);
-        return getFiltered(userId, meal -> DateTimeUtil.isBetween(meal.getDateTime(), start, end));
     }
 
     public List<Meal> getFiltered(LocalDate start, LocalDate end, int userId) {
