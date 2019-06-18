@@ -5,7 +5,6 @@ import org.springframework.stereotype.Controller;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.service.MealService;
 import ru.javawebinar.topjava.to.MealTo;
-import ru.javawebinar.topjava.util.DateTimeUtil;
 import ru.javawebinar.topjava.util.MealsUtil;
 import ru.javawebinar.topjava.web.SecurityUtil;
 
@@ -56,8 +55,8 @@ public class MealRestController {
         int userId = SecurityUtil.getAuthUserId();
 
         List<Meal> meals = service.getFilterDate(
-                startDate == null ? DateTimeUtil.MIN_DATE : startDate,
-                endDate == null ? DateTimeUtil.MAX_DATE : endDate,
+                startDate == null ? LocalDate.MIN : startDate,
+                endDate == null ? LocalDate.MAX : endDate,
                 userId
         );
 

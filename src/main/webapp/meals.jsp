@@ -6,23 +6,36 @@
 <html>
 <head>
     <title>Meal list</title>
-    <style>
-        .normal {
-            color: green;
-        }
-
-        .excess {
-            color: red;
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 <body>
 <section>
     <h3><a href="index.html">Home</a></h3>
     <hr/>
+    <form method="post" action="meals?action=filter">
+        <dl>
+            <dt>Date from:</dt>
+            <dd><input type="date" value="${param.startDate}" name="startDate"></dd>
+        </dl>
+        <dl>
+            <dt>Date to:</dt>
+            <dd><input type="date" value="${param.endDate}" size=40 name="endDate"></dd>
+        </dl>
+        <dl>
+            <dt>Time from:</dt>
+            <dd><input type="time" value="${param.startTime}" name="startTime"></dd>
+        </dl>
+        <dl>
+            <dt>Time to:</dt>
+            <dd><input type="time" value="${param.endTime}" name="endTime"></dd>
+        </dl>
+        <button type="submit">Filter</button>
+    </form>
+    <hr/>
     <h2>Meals</h2>
+    <hr/>
     <a href="meals?action=create">Add Meal</a>
-    <br><br>
+    <hr/>
     <table border="1" cellpadding="8" cellspacing="0">
         <thead>
         <tr>
