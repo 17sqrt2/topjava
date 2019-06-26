@@ -21,9 +21,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static ru.javawebinar.topjava.MealTestData.ADMIN_MEALS;
-import static ru.javawebinar.topjava.MealTestData.USER_MEALS;
+import static ru.javawebinar.topjava.MealTestData.*;
 import static ru.javawebinar.topjava.UserTestData.ADMIN_ID;
 import static ru.javawebinar.topjava.UserTestData.USER_ID;
 
@@ -48,34 +46,34 @@ public class MealServiceTest {
 
 	@Test
 	public void get() throws Exception {
-		Meal meal = service.get(100007, USER_ID);
-		assertThat(USER_MEALS.get(0)).isEqualToComparingFieldByField(meal);
+		Meal meal = service.get(USER_FIRST_MEAL_ID, USER_ID);
+		assertMatch(USER_MEALS.get(0), meal);
 	}
 
 	@Test(expected = NotFoundException.class)
 	public void getNotFound() throws Exception {
-		service.get(1, ADMIN_ID);
+		service.get(WRONG_MEAL_ID, ADMIN_ID);
 	}
 
 	@Test(expected = NotFoundException.class)
 	public void getNotYours() throws Exception {
-		service.get(100007, ADMIN_ID);
+		service.get(USER_FIRST_MEAL_ID, ADMIN_ID);
 	}
 
 	@Test
 	public void delete() {
-		service.delete(100007, USER_ID);
-		assertThat(USER_MEALS.subList(1, USER_MEALS.size())).usingFieldByFieldElementComparator().isEqualTo(service.getAll(USER_ID));
+		service.delete(USER_FIRST_MEAL_ID, USER_ID);
+		assertMatch(service.getAll(USER_ID), USER_MEALS.subList(1, USER_MEALS.size()));
 	}
 
 	@Test(expected = NotFoundException.class)
 	public void deletedNotFound() throws Exception {
-		service.delete(1, ADMIN_ID);
+		service.delete(WRONG_MEAL_ID, ADMIN_ID);
 	}
 
 	@Test(expected = NotFoundException.class)
 	public void deletedNotYours() throws Exception {
-		service.delete(100007, ADMIN_ID);
+		service.delete(ADMIN_FIRST_MEAL_ID, USER_ID);
 	}
 
 	@Test
@@ -86,7 +84,7 @@ public class MealServiceTest {
 		List<Meal> expected = USER_MEALS.stream()
 				.filter(meal -> Util.isBetween(meal.getDate(), start, end))
 				.collect(Collectors.toList());
-		assertThat(actual).usingFieldByFieldElementComparator().isEqualTo(expected);
+		assertMatch(actual, expected);
 	}
 
 	@Test
@@ -97,13 +95,17 @@ public class MealServiceTest {
 		List<Meal> expected = USER_MEALS.stream()
 				.filter(meal -> Util.isBetween(meal.getDateTime(), start, end))
 				.collect(Collectors.toList());
-		assertThat(actual).usingFieldByFieldElementComparator().isEqualTo(expected);
+		assertMatch(actual, expected);
 	}
 
 	@Test
-	public void getAll() {
-		assertThat(USER_MEALS).usingFieldByFieldElementComparator().isEqualTo(service.getAll(USER_ID));
-		assertThat(ADMIN_MEALS).usingFieldByFieldElementComparator().isEqualTo(service.getAll(ADMIN_ID));
+	public void getAllUser() {
+		assertMatch(service.getAll(USER_ID), USER_MEALS);
+	}
+
+	@Test
+	public void getAllAdmin() {
+		assertMatch(service.getAll(ADMIN_ID), ADMIN_MEALS);
 	}
 
 	@Test
@@ -112,19 +114,19 @@ public class MealServiceTest {
 		updated.setDescription("Admin supper");
 		updated.setCalories(1450);
 		service.update(updated, ADMIN_ID);
-		assertThat(updated).isEqualToComparingFieldByField(service.get(updated.getId(), ADMIN_ID));
+		assertMatch(service.get(updated.getId(), ADMIN_ID), updated);
 	}
 
 	@Test(expected = NotFoundException.class)
 	public void updateNotFound() throws Exception {
-		Meal notExistingMeal = new Meal(1, LocalDateTime.of(2015, Month.JUNE, 1, 11, 0), "Admin breakfast", 50);
+		Meal notExistingMeal = new Meal(WRONG_MEAL_ID, LocalDateTime.of(2015, Month.JUNE, 1, 11, 0), "Admin breakfast", 50);
 		service.update(notExistingMeal, ADMIN_ID);
 	}
 
 	@Test(expected = NotFoundException.class)
 	public void updateNotYours() throws Exception {
-		Meal meal = service.get(100007, USER_ID);
-		service.update(meal, ADMIN_ID);
+		Meal meal = service.get(ADMIN_FIRST_MEAL_ID, ADMIN_ID);
+		service.update(meal, USER_ID);
 	}
 
 	@Test
@@ -134,9 +136,8 @@ public class MealServiceTest {
 		newMeal.setId(created.getId());
 		List<Meal> expected = new ArrayList<>(ADMIN_MEALS);
 		expected.add(newMeal);
-		assertThat(expected.stream()
-				.sorted(Comparator.comparing(Meal::getDateTime).reversed()).collect(Collectors.toList()))
-				.usingFieldByFieldElementComparator().isEqualTo(service.getAll(ADMIN_ID));
+		assertMatch(service.getAll(ADMIN_ID), expected.stream()
+				.sorted(Comparator.comparing(Meal::getDateTime).reversed()).collect(Collectors.toList()));
 	}
 
 	@Test(expected = DuplicateKeyException.class)
