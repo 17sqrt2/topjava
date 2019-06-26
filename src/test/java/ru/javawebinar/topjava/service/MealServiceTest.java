@@ -28,7 +28,8 @@ import static ru.javawebinar.topjava.UserTestData.USER_ID;
 //import static org.junit.Assert.assertThat;
 
 @ContextConfiguration({
-		"classpath:spring/spring-app.xml",
+		"classpath:spring/spring-app-general.xml",
+		"classpath:spring/spring-app-jdbc.xml",
 		"classpath:spring/spring-db.xml"
 })
 @RunWith(SpringRunner.class)
