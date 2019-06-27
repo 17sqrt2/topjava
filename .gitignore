@@ -4,6 +4,7 @@ target
 patch
 *.iml
 log
-
+!README.md
+*.md
 
 
