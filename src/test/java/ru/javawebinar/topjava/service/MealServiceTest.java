@@ -33,7 +33,7 @@ import static ru.javawebinar.topjava.UserTestData.USER_ID;
 @RunWith(SpringJUnit4ClassRunner.class)
 @Sql(scripts = "classpath:db/populateDB.sql", config = @SqlConfig(encoding = "UTF-8"))
 public class MealServiceTest {
-	private static final Logger log = getLogger(MealServiceTest.class);
+	private static final Logger log = getLogger("durationTotal");
 
 	private static Map<String, Long> testDurationMap = new HashMap<>();
 
@@ -45,9 +45,9 @@ public class MealServiceTest {
 
 	@AfterClass
 	public static void logDuration() {
-		for (Map.Entry<String, Long> entry : testDurationMap.entrySet()) {
-			log.info("Test {} took {} milliseconds", entry.getKey(), entry.getValue());
-		}
+		long totalDuration = testDurationMap.values().stream().mapToLong(l -> l).sum();
+		String message = String.format("\n%-30s - %10d milliseconds\n", "Total duration", totalDuration);
+		log.info(message);
 	}
 
 	@Autowired

@@ -10,7 +10,7 @@ import java.util.concurrent.TimeUnit;
 import static org.slf4j.LoggerFactory.getLogger;
 
 public class TestStopwatch extends Stopwatch {
-	private static Logger log = getLogger(TestStopwatch.class);
+	private static Logger log = getLogger("duration");
 
 	private Map<String, Long> testDurationMap;
 
@@ -21,8 +21,9 @@ public class TestStopwatch extends Stopwatch {
 	@Override
 	protected void finished(long nanos, Description description) {
 		String test = description.getMethodName();
-		long duration = TimeUnit.NANOSECONDS.toMicros(nanos);
-		log.info("Test {} took {} milliseconds", test, duration);
+		long duration = TimeUnit.NANOSECONDS.toMillis(nanos);
+		String message = String.format("\n%-30s - %10d milliseconds", test, duration);
+		log.info(message);
 		testDurationMap.put(test, duration);
 	}
 }

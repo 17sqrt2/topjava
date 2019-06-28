@@ -1,6 +1,5 @@
 package ru.javawebinar.topjava.repository.jpa;
 
-import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ru.javawebinar.topjava.model.Meal;
@@ -22,16 +21,17 @@ public class JpaMealRepository implements MealRepository {
 	@Override
 	@Transactional
 	public Meal save(Meal meal, int userId) {
-		User ref = em.getReference(User.class, userId);
-		meal.setUser(ref);
-		if (meal.isNew()) {
-			em.persist(meal);
-		} else if (get(meal.getId(), userId) == null) {
+		if (!meal.isNew() && get(meal.getId(), userId) == null) {
 			return null;
 		} else {
+			User ref = em.getReference(User.class, userId);
+			meal.setUser(ref);
+			if (meal.isNew()) {
+				em.persist(meal);
+				return meal;
+			}
 			return em.merge(meal);
 		}
-		return meal;
 	}
 
 	@Override
@@ -45,23 +45,20 @@ public class JpaMealRepository implements MealRepository {
 
 	@Override
 	public Meal get(int id, int userId) {
-		List<Meal> meals = em.createNamedQuery(Meal.SELECT)
-				.setParameter("id", id)
-				.setParameter("userId", userId)
-				.getResultList();
-		return meals.isEmpty() ? null : DataAccessUtils.requiredSingleResult(meals);
+		Meal meal = em.find(Meal.class, id);
+		return meal == null || userId != meal.getUser().getId() ? null : meal;
 	}
 
 	@Override
 	public List<Meal> getAll(int userId) {
-		return em.createNamedQuery(Meal.ALL_SORTED)
+		return em.createNamedQuery(Meal.ALL_SORTED, Meal.class)
 				.setParameter("userId", userId)
 				.getResultList();
 	}
 
 	@Override
 	public List<Meal> getBetween(LocalDateTime startDate, LocalDateTime endDate, int userId) {
-		return em.createNamedQuery(Meal.FILTERED_SORTED)
+		return em.createNamedQuery(Meal.FILTERED_SORTED, Meal.class)
 				.setParameter("startDate", startDate)
 				.setParameter("endDate", endDate)
 				.setParameter("userId", userId)

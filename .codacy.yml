@@ -1,6 +1,4 @@
 ---
 exclude_paths:
   - 'src/main/webapp/**'
-  #  - 'README.md'
-  - '*.md'
-  - '*hsql.sql'
+  - 'README.md'
