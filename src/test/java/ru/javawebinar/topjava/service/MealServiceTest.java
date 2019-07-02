@@ -45,9 +45,11 @@ public class MealServiceTest {
 
 	@AfterClass
 	public static void logDuration() {
+		StringBuilder sb = new StringBuilder("\n");
+		testDurationMap.forEach((k, v) -> sb.append(String.format("%-30s - %10d milliseconds\n", k, v)));
 		long totalDuration = testDurationMap.values().stream().mapToLong(l -> l).sum();
-		String message = String.format("\n%-30s - %10d milliseconds\n", "Total duration", totalDuration);
-		log.info(message);
+		sb.append(String.format("\n%-30s - %10d milliseconds\n", "Total duration", totalDuration));
+		log.info(sb.toString());
 	}
 
 	@Autowired
