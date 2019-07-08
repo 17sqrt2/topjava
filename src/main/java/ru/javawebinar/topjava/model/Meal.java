@@ -13,8 +13,10 @@ public class Meal extends AbstractBaseEntity {
 
     private int calories;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	private User user;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    @NotNull
+    private User user;
 
     public Meal() {
     }
@@ -62,13 +64,13 @@ public class Meal extends AbstractBaseEntity {
         this.calories = calories;
     }
 
-	public User getUser() {
-		return user;
-	}
+    public User getUser() {
+        return user;
+    }
 
-	public void setUser(User user) {
-		this.user = user;
-	}
+    public void setUser(User user) {
+        this.user = user;
+    }
 
     @Override
     public String toString() {
