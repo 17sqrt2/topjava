@@ -7,6 +7,9 @@ import org.junit.rules.ExpectedException;
 import org.junit.rules.ExternalResource;
 import org.junit.rules.Stopwatch;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
+import org.springframework.core.env.Profiles;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
@@ -34,6 +37,16 @@ abstract public class AbstractServiceTest {
 
     @Rule
     public ExpectedException thrown = ExpectedException.none();
+
+    @Autowired
+    private Environment environment;
+
+    public boolean isJpaUsed() {
+        return environment.acceptsProfiles(Profiles.of(
+                ru.javawebinar.topjava.Profiles.DATAJPA,
+                ru.javawebinar.topjava.Profiles.JPA
+        ));
+    }
 
     //  Check root cause in JUnit: https://github.com/junit-team/junit4/pull/778
     public <T extends Throwable> void validateRootCause(Runnable runnable, Class<T> exceptionClass) {
