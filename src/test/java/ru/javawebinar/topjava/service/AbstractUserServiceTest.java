@@ -9,9 +9,9 @@ import ru.javawebinar.topjava.model.Role;
 import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.util.exception.NotFoundException;
 
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import static ru.javawebinar.topjava.UserTestData.*;
 
@@ -30,7 +30,7 @@ public abstract class AbstractUserServiceTest extends AbstractServiceTest {
 
     @Test
     public void create() throws Exception {
-        User newUser = new User(null, "New", "new@gmail.com", "newPass", 1555, false, new Date(), Collections.singleton(Role.ROLE_USER));
+        User newUser = new User(null, "New", "new@gmail.com", "newPass", 1555, false, new Date(), Set.of(Role.ROLE_USER, Role.ROLE_ADMIN));
         User created = service.create(newUser);
         newUser.setId(created.getId());
         assertMatch(created, newUser);
@@ -59,6 +59,12 @@ public abstract class AbstractUserServiceTest extends AbstractServiceTest {
         assertMatch(user, USER);
     }
 
+    @Test
+    public void getWithMultiRole() throws Exception {
+        User user = service.get(ADMIN_ID);
+        assertMatch(user, ADMIN);
+    }
+
     @Test(expected = NotFoundException.class)
     public void getNotFound() throws Exception {
         service.get(1);
@@ -71,12 +77,27 @@ public abstract class AbstractUserServiceTest extends AbstractServiceTest {
     }
 
     @Test
+    public void getWithMultiRoleByEmail() throws Exception {
+        User user = service.getByEmail("admin@gmail.com");
+        assertMatch(user, ADMIN);
+    }
+
+    @Test
     public void update() throws Exception {
         User updated = new User(USER);
         updated.setName("UpdatedName");
         updated.setCaloriesPerDay(330);
         service.update(updated);
         assertMatch(service.get(USER_ID), updated);
+    }
+
+    @Test
+    public void updateWithMultiRole() throws Exception {
+        User updated = new User(ADMIN);
+        updated.setName("UpdatedName");
+        updated.setCaloriesPerDay(330);
+        service.update(updated);
+        assertMatch(service.get(ADMIN_ID), updated);
     }
 
     @Test
