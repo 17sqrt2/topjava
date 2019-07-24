@@ -41,10 +41,9 @@ abstract public class AbstractServiceTest {
     @Autowired
     private Environment environment;
 
-    public boolean isJpaUsed() {
+    public boolean isJdbcUsed() {
         return environment.acceptsProfiles(Profiles.of(
-                ru.javawebinar.topjava.Profiles.DATAJPA,
-                ru.javawebinar.topjava.Profiles.JPA
+                ru.javawebinar.topjava.Profiles.JDBC
         ));
     }
 
