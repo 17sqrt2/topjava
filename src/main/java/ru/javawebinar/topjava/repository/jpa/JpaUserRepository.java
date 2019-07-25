@@ -23,28 +23,28 @@ public class JpaUserRepository implements UserRepository {
     }
 */
 
-	@PersistenceContext
-	private EntityManager em;
+    @PersistenceContext
+    private EntityManager em;
 
-	@Override
-	@Transactional
-	public User save(User user) {
-		if (user.isNew()) {
-			em.persist(user);
-			return user;
-		} else {
-			return em.merge(user);
-		}
-	}
+    @Override
+    @Transactional
+    public User save(User user) {
+        if (user.isNew()) {
+            em.persist(user);
+            return user;
+        } else {
+            return em.merge(user);
+        }
+    }
 
-	@Override
-	public User get(int id) {
-		return em.find(User.class, id);
-	}
+    @Override
+    public User get(int id) {
+        return em.find(User.class, id);
+    }
 
-	@Override
-	@Transactional
-	public boolean delete(int id) {
+    @Override
+    @Transactional
+    public boolean delete(int id) {
 
 /*      User ref = em.getReference(User.class, id);
         em.remove(ref);
@@ -52,21 +52,22 @@ public class JpaUserRepository implements UserRepository {
         Query query = em.createQuery("DELETE FROM User u WHERE u.id=:id");
         return query.setParameter("id", id).executeUpdate() != 0;
 */
-		return em.createNamedQuery(User.DELETE)
-				.setParameter("id", id)
-				.executeUpdate() != 0;
-	}
+        return em.createNamedQuery(User.DELETE)
+                .setParameter("id", id)
+                .executeUpdate() != 0;
+    }
 
-	@Override
-	public User getByEmail(String email) {
-		List<User> users = em.createNamedQuery(User.BY_EMAIL, User.class)
-				.setParameter(1, email)
-				.getResultList();
-		return DataAccessUtils.singleResult(users);
-	}
+    @Override
+    public User getByEmail(String email) {
+        List<User> users = em.createNamedQuery(User.BY_EMAIL, User.class)
+                .setParameter(1, email)
+                .setHint(QueryHints.HINT_PASS_DISTINCT_THROUGH, false)
+                .getResultList();
+        return DataAccessUtils.singleResult(users);
+    }
 
-	@Override
-	public List<User> getAll() {
-		return em.createNamedQuery(User.ALL_SORTED, User.class).getResultList();
-	}
+    @Override
+    public List<User> getAll() {
+        return em.createNamedQuery(User.ALL_SORTED, User.class).getResultList();
+    }
 }
