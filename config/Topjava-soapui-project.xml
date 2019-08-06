@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<con:soapui-project activeEnvironment="Default" name="Topjava" resourceRoot="" soapui-version="5.4.0"
-                    abortOnError="false" runType="SEQUENTIAL" id="b6a174fe-9cda-4410-af25-bdf04e1fed39"
-                    xmlns:con="http://eviware.com/soapui/config">
+<con:soapui-project xmlns:con="http://eviware.com/soapui/config" activeEnvironment="Default" name="Topjava"
+                    resourceRoot="" soapui-version="5.5.0" abortOnError="false" runType="SEQUENTIAL"
+                    id="b6a174fe-9cda-4410-af25-bdf04e1fed39">
     <con:settings/>
-    <con:interface xsi:type="con:RestService" wadlVersion="http://wadl.dev.java.net/2009/02"
-                   name="http://localhost:8080" type="rest" id="eebe6f3c-c045-444a-ae8f-c0f4bbb345b5"
-                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <con:interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="con:RestService"
+                   wadlVersion="http://wadl.dev.java.net/2009/02" name="http://localhost:8080" type="rest"
+                   id="eebe6f3c-c045-444a-ae8f-c0f4bbb345b5">
         <con:settings/>
-        <con:definitionCache/>
+        <con:definitionCache type="TEXT" rootPart=""/>
         <con:endpoints>
             <con:endpoint>http://localhost:8080</con:endpoint>
         </con:endpoints>
-        <con:resource name="" path="/topjava/rest/admin/users" id="6da03be8-b9dc-43d8-a333-3253fa8d4dad">
+        <con:resource name="" path="/rest/admin/users" id="6da03be8-b9dc-43d8-a333-3253fa8d4dad">
             <con:settings/>
             <con:parameters/>
             <con:method name="" method="GET" id="d020d56b-e008-4f4a-8234-35767b093863">
@@ -19,7 +19,7 @@
                 <con:parameters/>
                 <con:representation type="FAULT">
                     <con:mediaType>text/html;charset=utf-8</con:mediaType>
-                    <con:status>500 401</con:status>
+                    <con:status>500 401 404</con:status>
                     <con:params/>
                     <con:element>html</con:element>
                 </con:representation>
@@ -37,7 +37,8 @@
                 </con:representation>
                 <con:request name="AdminGetAll" mediaType="application/json" id="e073a168-8421-4a54-99db-5a321de647a7">
                     <con:settings>
-                        <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/>
+                        <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">
+                            &lt;xml-fragment/&gt;
                         </con:setting>
                     </con:settings>
                     <con:endpoint>http://localhost:8080</con:endpoint>
@@ -83,7 +84,8 @@
                 <con:request name="AdminCreate" mediaType="application/json" postQueryString="false"
                              id="5bd4c733-d82e-4d43-b193-ab6e0f898c26">
                     <con:settings>
-                        <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/>
+                        <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">
+                            &lt;xml-fragment/&gt;
                         </con:setting>
                     </con:settings>
                     <con:endpoint>http://localhost:8080</con:endpoint>
@@ -105,7 +107,7 @@
                 </con:request>
             </con:method>
         </con:resource>
-        <con:resource name="" path="/topjava/rest/admin/users/100000" id="7f8ab4ae-b6a8-4aa8-a502-9dbebb27ad8b">
+        <con:resource name="" path="/rest/admin/users/100000" id="7f8ab4ae-b6a8-4aa8-a502-9dbebb27ad8b">
             <con:settings/>
             <con:parameters/>
             <con:method name="" method="GET" id="7a2525a5-8d97-4c33-97ab-dc071c529154">
@@ -131,7 +133,8 @@
                 </con:representation>
                 <con:request name="AdminGet" mediaType="application/json" id="4f099c7f-94dc-466b-a544-6c8e41bdd691">
                     <con:settings>
-                        <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/>
+                        <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">
+                            &lt;xml-fragment/&gt;
                         </con:setting>
                     </con:settings>
                     <con:endpoint>http://localhost:8080</con:endpoint>
@@ -196,10 +199,23 @@
                     <con:params/>
                     <con:element>data</con:element>
                 </con:representation>
+                <con:representation type="RESPONSE">
+                    <con:mediaType xsi:nil="true"/>
+                    <con:status>204</con:status>
+                    <con:params/>
+                    <con:element>data</con:element>
+                </con:representation>
+                <con:representation type="RESPONSE">
+                    <con:mediaType xsi:nil="true"/>
+                    <con:status>204</con:status>
+                    <con:params/>
+                    <con:element>data</con:element>
+                </con:representation>
                 <con:request name="AdminUpdate" mediaType="application/json" postQueryString="false"
                              id="efc6bc55-7b69-4992-974d-9a1c54d342ed">
                     <con:settings>
-                        <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/>
+                        <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">
+                            &lt;xml-fragment/&gt;
                         </con:setting>
                     </con:settings>
                     <con:endpoint>http://localhost:8080</con:endpoint>
@@ -221,7 +237,7 @@
                 </con:request>
             </con:method>
         </con:resource>
-        <con:resource name="" path="/topjava/rest/profile" id="dc6bc427-b446-4a76-bbb7-94608e15aa11">
+        <con:resource name="" path="/rest/profile" id="dc6bc427-b446-4a76-bbb7-94608e15aa11">
             <con:settings/>
             <con:parameters/>
             <con:method name="" method="GET" id="4970902f-2d28-4e9e-bece-e944ea382323">
@@ -247,7 +263,8 @@
                 </con:representation>
                 <con:request name="Get" mediaType="application/json" id="284adf4f-eb7e-44eb-83a9-b038a370efc4">
                     <con:settings>
-                        <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/>
+                        <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">
+                            &lt;xml-fragment/&gt;
                         </con:setting>
                     </con:settings>
                     <con:endpoint>http://localhost:8080</con:endpoint>
@@ -324,10 +341,17 @@
                     <con:params/>
                     <con:element>data</con:element>
                 </con:representation>
+                <con:representation type="RESPONSE">
+                    <con:mediaType xsi:nil="true"/>
+                    <con:status>204</con:status>
+                    <con:params/>
+                    <con:element>data</con:element>
+                </con:representation>
                 <con:request name="Update" mediaType="application/json" postQueryString="false"
                              id="e45dfcce-1514-43ae-9233-a60407161db6">
                     <con:settings>
-                        <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/>
+                        <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">
+                            &lt;xml-fragment/&gt;
                         </con:setting>
                     </con:settings>
                     <con:endpoint>http://localhost:8080</con:endpoint>
@@ -379,10 +403,17 @@
                     <con:params/>
                     <con:element>data</con:element>
                 </con:representation>
+                <con:representation type="RESPONSE">
+                    <con:mediaType xsi:nil="true"/>
+                    <con:status>204</con:status>
+                    <con:params/>
+                    <con:element>data</con:element>
+                </con:representation>
                 <con:request name="Delete" mediaType="application/json" id="efec2863-f29c-436a-8509-71ab92e2e670"
                              postQueryString="false">
                     <con:settings>
-                        <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/>
+                        <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">
+                            &lt;xml-fragment/&gt;
                         </con:setting>
                     </con:settings>
                     <con:endpoint>http://localhost:8080</con:endpoint>
@@ -396,6 +427,257 @@
                     <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
                     <con:jmsPropertyConfig/>
                     <con:parameters/>
+                </con:request>
+            </con:method>
+        </con:resource>
+        <con:resource name="" path="/rest/admin/meals" id="e367cdd0-80c8-4f08-a7cd-95879fcd22ae">
+            <con:settings/>
+            <con:parameters/>
+            <con:method name="" id="de6de159-d0f4-4794-b35a-0cadd4e345ea" method="GET">
+                <con:settings/>
+                <con:parameters/>
+                <con:representation type="RESPONSE">
+                    <con:mediaType>application/json;charset=UTF-8</con:mediaType>
+                    <con:status>200</con:status>
+                    <con:params/>
+                    <con:element>Response</con:element>
+                </con:representation>
+                <con:request name="getAll" id="bd9a49ec-4241-44ae-adcf-21c677d76ea8" mediaType="application/json">
+                    <con:settings>
+                        <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">
+                            &lt;xml-fragment/&gt;
+                        </con:setting>
+                    </con:settings>
+                    <con:endpoint>http://localhost:8080</con:endpoint>
+                    <con:request/>
+                    <con:originalUri>http://localhost/rest/admin/meals</con:originalUri>
+                    <con:credentials>
+                        <con:authType>No Authorization</con:authType>
+                    </con:credentials>
+                    <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+                    <con:jmsPropertyConfig/>
+                    <con:parameters/>
+                    <con:parameterOrder/>
+                </con:request>
+            </con:method>
+            <con:method name="" id="0bd7b774-7e19-4f20-8787-1af027df0eab" method="POST">
+                <con:settings/>
+                <con:parameters/>
+                <con:representation type="REQUEST">
+                    <con:mediaType>application/json</con:mediaType>
+                    <con:params/>
+                </con:representation>
+                <con:representation type="FAULT">
+                    <con:mediaType>text/html;charset=utf-8</con:mediaType>
+                    <con:status>400</con:status>
+                    <con:params/>
+                    <con:element>html</con:element>
+                </con:representation>
+                <con:representation type="RESPONSE">
+                    <con:mediaType>application/json;charset=UTF-8</con:mediaType>
+                    <con:status>201</con:status>
+                    <con:params/>
+                    <con:element xmlns:meal="http://localhost/rest/admin/meals">meal:Response</con:element>
+                </con:representation>
+                <con:request name="create" id="bdc7d343-f932-4dba-9361-1ff14ec3e57a" mediaType="application/json"
+                             postQueryString="false">
+                    <con:settings>
+                        <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">
+                            &lt;xml-fragment/&gt;
+                        </con:setting>
+                    </con:settings>
+                    <con:endpoint>http://localhost:8080</con:endpoint>
+                    <con:request>{
+                        "dateTime": "2015-06-01T19:00:00",
+                        "description": "new dinner",
+                        "calories": "845"
+                        }
+                    </con:request>
+                    <con:originalUri>http://localhost/rest/admin/meals</con:originalUri>
+                    <con:credentials>
+                        <con:authType>No Authorization</con:authType>
+                    </con:credentials>
+                    <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+                    <con:jmsPropertyConfig/>
+                    <con:parameters/>
+                    <con:parameterOrder/>
+                </con:request>
+            </con:method>
+        </con:resource>
+        <con:resource name="" path="/rest/admin/meals/100002" id="b44806e7-3854-4af9-8788-72df00a0223d">
+            <con:settings/>
+            <con:parameters/>
+            <con:method name="" id="230a3546-a7de-4e81-9478-b4c760164457" method="PUT">
+                <con:settings/>
+                <con:parameters/>
+                <con:representation type="REQUEST">
+                    <con:mediaType>application/json</con:mediaType>
+                    <con:params/>
+                </con:representation>
+                <con:representation type="FAULT">
+                    <con:mediaType>text/html;charset=utf-8</con:mediaType>
+                    <con:status>400</con:status>
+                    <con:params/>
+                    <con:element>html</con:element>
+                </con:representation>
+                <con:representation type="RESPONSE">
+                    <con:mediaType xsi:nil="true"/>
+                    <con:status>204</con:status>
+                    <con:params/>
+                    <con:element>data</con:element>
+                </con:representation>
+                <con:request name="update" id="464a7d5e-6aaf-4988-9164-acf9d56f06d7" mediaType="application/json"
+                             postQueryString="false">
+                    <con:settings>
+                        <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">
+                            &lt;xml-fragment/&gt;
+                        </con:setting>
+                    </con:settings>
+                    <con:endpoint>http://localhost:8080</con:endpoint>
+                    <con:request>{
+                        "dateTime": "2015-05-30T10:00:00",
+                        "description": "updated breakfast",
+                        "calories": "500"
+                        }
+                    </con:request>
+                    <con:originalUri>http://localhost/rest/admin/meals/100002</con:originalUri>
+                    <con:credentials>
+                        <con:authType>No Authorization</con:authType>
+                    </con:credentials>
+                    <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+                    <con:jmsPropertyConfig/>
+                    <con:parameters/>
+                </con:request>
+            </con:method>
+            <con:method name="" id="681cfc61-0a6a-4db2-87fe-494de15edcaf" method="GET">
+                <con:settings/>
+                <con:parameters/>
+                <con:representation type="RESPONSE">
+                    <con:mediaType>application/json;charset=UTF-8</con:mediaType>
+                    <con:status>200</con:status>
+                    <con:params/>
+                    <con:element xmlns:ns="http://localhost/rest/admin/meals/100002">ns:Response</con:element>
+                </con:representation>
+                <con:representation type="FAULT">
+                    <con:mediaType>text/html;charset=utf-8</con:mediaType>
+                    <con:status>500</con:status>
+                    <con:params/>
+                    <con:element>html</con:element>
+                </con:representation>
+                <con:request name="get" id="0c657985-9c1b-40da-a43f-74d708e55e43" mediaType="application/json">
+                    <con:settings>
+                        <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">
+                            &lt;xml-fragment/&gt;
+                        </con:setting>
+                    </con:settings>
+                    <con:endpoint>http://localhost:8080</con:endpoint>
+                    <con:request/>
+                    <con:originalUri>http://localhost/rest/admin/meals/100002</con:originalUri>
+                    <con:credentials>
+                        <con:authType>No Authorization</con:authType>
+                    </con:credentials>
+                    <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+                    <con:jmsPropertyConfig/>
+                    <con:parameters/>
+                </con:request>
+            </con:method>
+            <con:method name="" id="1d904388-5d01-49ba-ab3e-92942e69b90f" method="DELETE">
+                <con:settings/>
+                <con:parameters/>
+                <con:representation type="RESPONSE">
+                    <con:mediaType xsi:nil="true"/>
+                    <con:status>204</con:status>
+                    <con:params/>
+                    <con:element>data</con:element>
+                </con:representation>
+                <con:representation type="REQUEST">
+                    <con:mediaType>application/json</con:mediaType>
+                    <con:params/>
+                </con:representation>
+                <con:request name="delete" id="439eac65-c107-43ca-8d90-24c6a42fff2e" mediaType="application/json"
+                             postQueryString="false">
+                    <con:settings>
+                        <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">
+                            &lt;xml-fragment/&gt;
+                        </con:setting>
+                    </con:settings>
+                    <con:endpoint>http://localhost:8080</con:endpoint>
+                    <con:request/>
+                    <con:originalUri>http://localhost/rest/admin/meals/100002</con:originalUri>
+                    <con:credentials>
+                        <con:authType>No Authorization</con:authType>
+                    </con:credentials>
+                    <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+                    <con:jmsPropertyConfig/>
+                    <con:parameters/>
+                </con:request>
+            </con:method>
+        </con:resource>
+        <con:resource name="filter" path="/rest/admin/meals/filter" id="db6dd347-716c-4d8b-98e0-edc1f1060551">
+            <con:settings/>
+            <con:parameters>
+                <con:parameter>
+                    <con:name>startDate</con:name>
+                    <con:value/>
+                    <con:style>QUERY</con:style>
+                    <con:default/>
+                    <con:description xsi:nil="true"/>
+                </con:parameter>
+                <con:parameter>
+                    <con:name>startTime</con:name>
+                    <con:value/>
+                    <con:style>QUERY</con:style>
+                    <con:default/>
+                    <con:description xsi:nil="true"/>
+                </con:parameter>
+                <con:parameter>
+                    <con:name>endDate</con:name>
+                    <con:value/>
+                    <con:style>QUERY</con:style>
+                    <con:default/>
+                    <con:description xsi:nil="true"/>
+                </con:parameter>
+                <con:parameter>
+                    <con:name>endTime</con:name>
+                    <con:value/>
+                    <con:style>QUERY</con:style>
+                    <con:default/>
+                    <con:description xsi:nil="true"/>
+                </con:parameter>
+            </con:parameters>
+            <con:method name="" id="4b2d2541-8eb6-40fd-9faa-41dab64598e5" method="GET">
+                <con:settings/>
+                <con:parameters/>
+                <con:representation type="RESPONSE">
+                    <con:mediaType>application/json;charset=UTF-8</con:mediaType>
+                    <con:status>200</con:status>
+                    <con:params/>
+                    <con:element>Response</con:element>
+                </con:representation>
+                <con:request name="filter" id="a66e0887-569f-4d74-b690-1307b165c306" mediaType="application/json">
+                    <con:settings>
+                        <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">
+                            &lt;xml-fragment/&gt;
+                        </con:setting>
+                    </con:settings>
+                    <con:endpoint>http://localhost:8080</con:endpoint>
+                    <con:request/>
+                    <con:originalUri>http://localhost/rest/admin/meals/filter</con:originalUri>
+                    <con:credentials>
+                        <con:authType>No Authorization</con:authType>
+                    </con:credentials>
+                    <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+                    <con:jmsPropertyConfig/>
+                    <con:parameters>
+                        <con:entry key="startTime" value="07:00"/>
+                        <con:entry key="endTime" value="14:00"/>
+                    </con:parameters>
+                    <con:parameterOrder>
+                        <con:entry>startDate</con:entry>
+                        <con:entry>startTime</con:entry>
+                        <con:entry>endDate</con:entry>
+                        <con:entry>endTime</con:entry>
+                    </con:parameterOrder>
                 </con:request>
             </con:method>
         </con:resource>

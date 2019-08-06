@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 public class MealTo {
     private final Integer id;
@@ -71,5 +72,10 @@ public class MealTo {
                 && this.getDescription().equals(mealTo.getDescription())
                 && this.getCalories() == mealTo.getCalories()
                 && this.isExcess() == mealTo.isExcess();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, dateTime, description, calories, excess);
     }
 }

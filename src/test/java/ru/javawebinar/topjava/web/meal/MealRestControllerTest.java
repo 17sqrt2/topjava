@@ -1,9 +1,11 @@
 package ru.javawebinar.topjava.web.meal;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
 import ru.javawebinar.topjava.model.Meal;
+import ru.javawebinar.topjava.service.MealService;
 import ru.javawebinar.topjava.util.MealsUtil;
 import ru.javawebinar.topjava.web.AbstractControllerTest;
 import ru.javawebinar.topjava.web.SecurityUtil;
@@ -22,6 +24,9 @@ import static ru.javawebinar.topjava.UserTestData.USER_ID;
 class MealRestControllerTest extends AbstractControllerTest {
 
     private static final String REST_URL = MealRestController.REST_URL + '/';
+
+    @Autowired
+    protected MealService mealService;
 
     @Test
     void testGet() throws Exception {
@@ -81,12 +86,24 @@ class MealRestControllerTest extends AbstractControllerTest {
 
     @Test
     void testGetBetween() throws Exception {
-        mockMvc.perform(get(REST_URL + "filter?startDateTime=2015-05-30T09:00&endDateTime=2015-05-30T14:00:00"))
+        mockMvc.perform(get(REST_URL + "filter")
+                .param("startDate", "2015-05-30")
+                .param("startTime", "09:00")
+                .param("endDate", "2015-05-30")
+                .param("endTime", "14:00"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(contentJson(List.of(
                         MealsUtil.createWithExcess(MEAL2, false),
                         MealsUtil.createWithExcess(MEAL1, false)
                 )));
+    }
+
+    @Test
+    void testGetBetweenEmpty() throws Exception {
+        mockMvc.perform(get(REST_URL + "filter"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(contentJson(MealsUtil.getWithExcess(MEALS, SecurityUtil.authUserCaloriesPerDay())));
     }
 }
