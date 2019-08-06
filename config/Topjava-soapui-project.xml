@@ -190,12 +190,6 @@
                     <con:params/>
                     <con:element>data</con:element>
                 </con:representation>
-                <con:representation type="RESPONSE">
-                    <con:mediaType xsi:nil="true"/>
-                    <con:status>200</con:status>
-                    <con:params/>
-                    <con:element>data</con:element>
-                </con:representation>
                 <con:request name="AdminUpdate" mediaType="application/json" postQueryString="false"
                              id="efc6bc55-7b69-4992-974d-9a1c54d342ed">
                     <con:settings>
